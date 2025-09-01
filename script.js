@@ -1,27 +1,27 @@
 (() => {
   const guessInput = document.getElementById('guess');
-  const guessBtn = document.getElementById('guessBtn');
-  const resetBtn = document.getElementById('resetBtn');
+  const guessButton = document.getElementById('guessBtn');
+  const resetButton = document.getElementById('resetBtn');
   const feedback = document.getElementById('feedback');
   const attemptsEl = document.getElementById('attempts');
   const bestEl = document.getElementById('best');
 
-  let target = random1to100();
+  let target = getRandomNumber();
   let attempts = 0;
 
   // Load best score from localStorage
-  const BEST_KEY = 'gtn-best';
-  let best = Number(localStorage.getItem(BEST_KEY)) || null;
+  const BEST_SCORE_KEY = 'gtn-best';
+  let best = Number(localStorage.getItem(BEST_SCORE_KEY)) || null;
   renderBest();
 
-  guessBtn.addEventListener('click', onGuess);
-  resetBtn.addEventListener('click', resetGame);
+  guessButton.addEventListener('click', handleGuess);
+  resetButton.addEventListener('click', resetGame);
   guessInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') onGuess();
+    if (e.key === 'Enter') handleGuess();
   });
 
-  function onGuess() {
-    const value = Number(guessInput.value);
+  function handleGuess() {
+    const value = guessInput.valueAsNumber;
     if (!Number.isInteger(value) || value < 1 || value > 100) {
       setFeedback('Please enter a whole number between 1 and 100.');
       return;
@@ -33,7 +33,7 @@
       setFeedback(`🎉 Correct! ${value} was the number. Press Reset to play again.`);
       updateBest();
       guessInput.disabled = true;
-      guessBtn.disabled = true;
+      guessButton.disabled = true;
     } else if (value < target) {
       setFeedback('Too low. Try a higher number.');
     } else {
@@ -44,20 +44,20 @@
   }
 
   function resetGame() {
-    target = random1to100();
+    target = getRandomNumber();
     attempts = 0;
     attemptsEl.textContent = '0';
     setFeedback('New round! Make a guess to begin.');
     guessInput.value = '';
     guessInput.disabled = false;
-    guessBtn.disabled = false;
+    guessButton.disabled = false;
     guessInput.focus();
   }
 
   function updateBest() {
     if (best == null || attempts < best) {
       best = attempts;
-      localStorage.setItem(BEST_KEY, String(best));
+      localStorage.setItem(BEST_SCORE_KEY, String(best));
       renderBest();
     }
   }
@@ -66,6 +66,6 @@
     bestEl.textContent = best == null ? '—' : String(best);
   }
 
-  function setFeedback(msg) { feedback.textContent = msg; }
-  function random1to100() { return Math.floor(Math.random() * 100) + 1; }
+  function setFeedback(message) { feedback.textContent = message; }
+  function getRandomNumber() { return Math.floor(Math.random() * 100) + 1; }
 })();
