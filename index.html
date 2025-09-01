@@ -21,11 +21,11 @@
     <div class="panel">
       <label for="guess">Your guess:</label>
       <input id="guess" type="number" min="1" max="100" inputmode="numeric" />
-      <button id="guessBtn">Guess</button>
-      <button id="resetBtn" class="secondary">Reset</button>
+      <button id="guessBtn" type="button">Guess</button>
+      <button id="resetBtn" class="secondary" type="button" aria-label="Reset game">Reset</button>
     </div>
 
-    <div id="feedback" role="status" aria-live="polite">Make a guess to begin!</div>
+    <div id="feedback" role="status">Make a guess to begin!</div>
 
     <div class="stats">
       <div>Attempts: <span id="attempts">0</span></div>
