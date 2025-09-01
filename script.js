@@ -5,6 +5,7 @@
   const feedback = document.getElementById('feedback');
   const attemptsEl = document.getElementById('attempts');
   const bestEl = document.getElementById('best');
+  const themeToggle = document.getElementById('themeToggle');
 
   let target = random1to100();
   let attempts = 0;
@@ -19,6 +20,7 @@
   guessInput.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') onGuess();
   });
+  themeToggle.addEventListener('click', toggleTheme);
 
   function onGuess() {
     const value = Number(guessInput.value);
@@ -52,6 +54,13 @@
     guessInput.disabled = false;
     guessBtn.disabled = false;
     guessInput.focus();
+  }
+
+  function toggleTheme() {
+    const current = document.documentElement.dataset.theme;
+    const next = current === 'light' ? 'dark' : 'light';
+    document.documentElement.dataset.theme = next;
+    localStorage.setItem('theme', next);
   }
 
   function updateBest() {
